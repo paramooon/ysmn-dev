@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YSMN — CGI studio</title>
+<meta name="description" content="YSMN — CGI studio by Gennady Lanin. Full-CG shots, Houdini simulations, lookdev, lighting and motion. Selected work 2022—2026.">
+<meta name="theme-color" content="#f2f2ef">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+</script>
+</head>
+<body>
+
+<!-- preloader: letters spread across the screen, then assemble -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__letters" id="preLetters">
+    <span>Y</span><span>S</span><span>M</span><span>N</span>
+  </div>
+  <span class="preloader__pct mono" id="prePct">00</span>
+</div>
+
+<!-- persistent WebGL object (letter Y) -->
+<canvas class="gl" id="gl" aria-hidden="true"></canvas>
+<div class="gl-fallback" id="glFallback" aria-hidden="true">Y</div>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
+
+<header class="header" id="header">
+  <a class="logo" href="#top">YSMN<sup>®</sup></a>
+  <div class="header__right">
+    <div class="lang" role="group" aria-label="Language / Язык">
+      <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+      <span class="lang__sep" aria-hidden="true">/</span>
+      <button type="button" class="lang__btn" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+    <span class="hbox mono" id="dayPct" title="Day progress">—</span>
+    <span class="hbox mono" id="clock" title="Local time">—</span>
+    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <nav class="mmenu__nav" aria-label="Mobile">
+    <a class="mmenu__link" href="#work" data-i18n="nav.work">Work</a>
+    <a class="mmenu__link" href="#services" data-i18n="nav.services">Services</a>
+    <a class="mmenu__link" href="#about" data-i18n="nav.about">About</a>
+    <a class="mmenu__link" href="#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
+  <div class="mmenu__foot">
+    <div class="lang" role="group" aria-label="Language / Язык">
+      <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+      <span class="lang__sep" aria-hidden="true">/</span>
+      <button type="button" class="lang__btn" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+    <a class="mmenu__mail mono" href="mailto:hello@ysmn.studio">hello@ysmn.studio</a>
+  </div>
+</div>
+
+<!-- vertical section rail -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#hero" class="rail__item is-active" data-rail="hero"><i></i><span class="mono">Intro</span></a>
+  <a href="#work" class="rail__item" data-rail="work"><i></i><span class="mono">Work</span></a>
+  <a href="#services" class="rail__item" data-rail="services"><i></i><span class="mono">Services</span></a>
+  <a href="#about" class="rail__item" data-rail="about"><i></i><span class="mono">About</span></a>
+  <a href="#contact" class="rail__item" data-rail="contact"><i></i><span class="mono">Contact</span></a>
+</nav>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero frame" id="hero" data-morph="hero">
+    <span class="plus plus--tl" aria-hidden="true"></span>
+    <span class="plus plus--tr" aria-hidden="true"></span>
+    <span class="plus plus--bl" aria-hidden="true"></span>
+    <span class="plus plus--br" aria-hidden="true"></span>
+
+    <p class="hero__label hero__label--tl mono reveal-line" data-i18n="hero.l1">01. CGI Studio</p>
+    <p class="hero__label hero__label--tr mono reveal-line" data-i18n="hero.l2">02. Moscow Based</p>
+    <p class="hero__label hero__label--bl mono reveal-line" data-i18n-html="hero.l3">03. T: +7 925 000 00 00<br>M: hello@ysmn.studio</p>
+    <p class="hero__label hero__label--br mono reveal-line" data-i18n="hero.l4">04. Open for projects</p>
+
+    <div class="hero__row">
+      <h1 class="hero__word hero__word--l reveal-line" data-i18n-html="hero.w1">Shaping<br>Worlds</h1>
+      <h1 class="hero__word hero__word--r reveal-line" data-i18n-html="hero.w2">Rendering<br>Emotions</h1>
+    </div>
+
+    <p class="hero__scroll mono" data-i18n="hero.scroll">Scroll to explore</p>
+  </section>
+  <!-- ================= WORK / CASE CAROUSEL ================= -->
+  <section class="work frame" id="work" data-morph="work">
+    <span class="plus plus--tl" aria-hidden="true"></span>
+    <span class="plus plus--br" aria-hidden="true"></span>
+
+    <div class="sec__head">
+      <div>
+        <h2 class="h2 reveal-line" data-i18n="work.title">Selected Work</h2>
+        <p class="sub reveal-line" data-i18n="work.sub">Selected full-CG productions, from concept to final frame.</p>
+      </div>
+      <a class="btn reveal-line" href="#contact" data-i18n="work.cta">Start a Project</a>
+    </div>
+
+    <div class="case" id="case">
+      <div class="case__stage">
+        <button class="case__main" id="caseMain" type="button" aria-haspopup="dialog">
+          <img id="caseImg" src="" alt="">
+          <span class="case__zoom mono" id="caseZoom">View gallery</span>
+        </button>
+        <div class="case__thumbs" id="caseThumbs"></div>
+      </div>
+      <figure class="case__phone"><img id="casePhone" src="" alt=""></figure>
+      <div class="case__desc">
+        <p class="case__tag mono" id="caseTag"></p>
+        <p class="case__text" id="caseText"></p>
+        <p class="case__meta mono" id="caseMeta"></p>
+      </div>
+      <div class="case__orbit">
+        <canvas id="orbit" width="420" height="420" aria-hidden="true"></canvas>
+        <div class="case__tools" id="caseTools"></div>
+      </div>
+    </div>
+
+    <div class="case__bar">
+      <div class="case__ctrl">
+        <button class="iconbtn" id="casePrev" type="button" aria-label="Previous project">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg>
+        </button>
+        <button class="iconbtn" id="caseShare" type="button" aria-label="Copy link">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M15 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L13.5 19.5"/></svg>
+        </button>
+      </div>
+      <h3 class="case__name reveal-line" id="caseName">&nbsp;</h3>
+      <button class="iconbtn" id="caseNext" type="button" aria-label="Next project">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg>
+      </button>
+    </div>
+  </section>
+  <!-- ================= SERVICES ================= -->
+  <section class="services frame" id="services" data-morph="services">
+    <span class="plus plus--tl" aria-hidden="true"></span>
+    <span class="plus plus--br" aria-hidden="true"></span>
+
+    <div class="sec__head">
+      <div>
+        <p class="sub mono reveal-line" data-i18n="srv.kicker">Craft, physics and light working together. Without compromise.</p>
+        <h2 class="h2 srv__words reveal-line" id="srvWords" aria-live="polite">
+          <span data-i18n="srv.w1">Photoreal</span>
+          <span data-i18n="srv.w2">Physical</span>
+          <span data-i18n="srv.w3">Precise</span>
+        </h2>
+      </div>
+      <a class="btn reveal-line" href="#contact" data-i18n="srv.cta">Get in touch</a>
+    </div>
+
+    <div class="srv__grid">
+      <div class="srv__card">
+        <div class="srv__dots" id="srvDots" aria-hidden="true"></div>
+        <div class="srv__flip" id="srvFlip">
+          <span class="srv__word" id="srvW1">full-CG</span>
+          <span class="srv__chip" id="srvW2">production</span>
+        </div>
+        <p class="srv__text" id="srvText"></p>
+        <div class="srv__nums">
+          <div class="srv__num srv__num--pct"><span class="srv__val" id="statPct">0%</span><span class="srv__cap mono" data-i18n="srv.satisfaction">Satisfaction</span></div>
+          <div class="srv__num"><span class="srv__val" data-count="30">0+</span><span class="srv__cap mono" data-i18n="srv.shots">Shots Delivered</span></div>
+          <div class="srv__num"><span class="srv__val" data-count="8">0+</span><span class="srv__cap mono" data-i18n="srv.years">Years Experience</span></div>
+        </div>
+      </div>
+
+      <div class="srv__glcell" aria-hidden="true"></div>
+
+      <aside class="srv__side">
+        <blockquote class="q" id="qA">
+          <p class="q__text"></p>
+          <footer class="q__who mono"></footer>
+        </blockquote>
+        <blockquote class="q" id="qB">
+          <p class="q__text"></p>
+          <footer class="q__who mono"></footer>
+        </blockquote>
+        <div class="q__nav">
+          <button class="iconbtn" id="qPrev" type="button" aria-label="Previous quote">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg>
+          </button>
+          <button class="iconbtn" id="qNext" type="button" aria-label="Next quote">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="about frame" id="about" data-morph="about">
+    <span class="plus plus--tl" aria-hidden="true"></span>
+    <span class="plus plus--br" aria-hidden="true"></span>
+
+    <div class="sec__head">
+      <div>
+        <h2 class="h2 reveal-line" data-i18n="about.title">About</h2>
+        <p class="sub reveal-line" data-i18n="about.sub">Strategy, craft and technology — connected from first idea to final frame.</p>
+      </div>
+      <a class="btn reveal-line" href="#contact" data-i18n="about.cta">Get in touch</a>
+    </div>
+
+    <div class="about__grid">
+      <p class="about__text reveal-line" data-i18n="about.text">YSMN is a CGI studio crafting photoreal worlds — full-CG shots, simulations, lookdev and lighting for ambitious brands.</p>
+      <div class="about__glcell" aria-hidden="true"></div>
+      <figure class="about__photo">
+        <img src="assets/unieco_p04.jpg" alt="CGI renders" loading="lazy" decoding="async">
+        <figcaption class="mono" data-i18n="about.figcaption">Unieco — full-CG product renders</figcaption>
+      </figure>
+    </div>
+
+    <div class="about__tools" id="aboutTools"></div>
+  </section>
+  <!-- ================= CONTACT ================= -->
+  <section class="contact frame" id="contact" data-morph="contact">
+    <span class="plus plus--tl" aria-hidden="true"></span>
+    <span class="plus plus--br" aria-hidden="true"></span>
+
+    <div class="contact__grid">
+      <div class="contact__col">
+        <h2 class="h2 reveal-line" data-i18n="ct.title">Contact</h2>
+        <div class="contact__card">
+          <a href="mailto:hello@ysmn.studio" class="contact__line">hello@ysmn.studio</a>
+          <a href="tel:+79250000000" class="contact__line">+7 925 000 00 00</a>
+          <a href="https://wa.me/79250000000" class="contact__line contact__line--wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 4 2.5 6.5 6.5 6.5l.9-1.8-2.2-1.1-1 .9c-1.2-.6-2-1.4-2.5-2.6l.9-1-1.1-2.1z"/></svg>
+            <span data-i18n="ct.whatsapp">WhatsApp</span>
+          </a>
+        </div>
+
+        <h2 class="h2 reveal-line" data-i18n="ct.info">Information</h2>
+        <div class="contact__card">
+          <p class="contact__line" data-i18n="ct.addr">Moscow, Russia</p>
+          <p class="contact__line mono" data-i18n="ct.hours">10:00 — 20:00 MSK</p>
+        </div>
+      </div>
+
+      <div class="contact__glcell" aria-hidden="true"></div>
+
+      <form class="contact__form" id="form" novalidate>
+        <h2 class="h2 reveal-line" data-i18n="ct.connect">Connect</h2>
+        <label class="fld"><span class="mono" data-i18n="ct.name">Your name</span>
+          <input type="text" name="name" id="fName" autocomplete="name" required>
+        </label>
+        <label class="fld"><span class="mono" data-i18n="ct.email">Your email</span>
+          <input type="email" name="email" id="fEmail" autocomplete="email" required placeholder="you@example.com">
+        </label>
+        <label class="fld"><span class="mono" data-i18n="ct.phone">Phone (optional)</span>
+          <input type="tel" name="phone" id="fPhone" autocomplete="tel" placeholder="+7 ...">
+        </label>
+        <label class="fld"><span class="mono" data-i18n="ct.project">Tell me about your project</span>
+          <textarea name="project" id="fProject" rows="4" required></textarea>
+        </label>
+        <button class="btn btn--wide" type="submit" data-i18n="ct.submit">Discuss a project</button>
+        <p class="form__note mono" id="formNote" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <footer class="foot">
+      <span class="mono" data-i18n="ft.copy">ysmn © 2026</span>
+      <a href="#" class="foot__link" data-i18n="ft.privacy">Privacy policy</a>
+      <a href="#" class="foot__link" data-i18n="ft.terms">Terms of service</a>
+      <span class="mono" data-i18n="ft.made">Crafted with three.js — no templates</span>
+    </footer>
+  </section>
+
+</main>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Project gallery">
+  <header class="lb__head">
+    <span class="lb__title" id="lbTitle"></span>
+    <span class="lb__counter mono" id="lbCounter"></span>
+    <button class="iconbtn" id="lbClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </header>
+  <div class="lb__track" id="lbTrack"></div>
+  <div class="lb__nav">
+    <button class="iconbtn" id="lbPrev" type="button" aria-label="Previous">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg>
+    </button>
+    <button class="iconbtn" id="lbNext" type="button" aria-label="Next">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="js/portfolio.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+<script type="module" src="js/particles.js"></script>
+
+</body>
+</html>
