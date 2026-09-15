@@ -5,16 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>YSMN — CGI studio</title>
 <meta name="description" content="YSMN — CGI studio by Gennady Lanin. Full-CG shots, Houdini simulations, lookdev, lighting and motion. Selected work 2022—2026.">
-<meta name="theme-color" content="#f2f2ef">
+<meta name="theme-color" content="#fafaf8">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -26,26 +24,26 @@
   <span class="preloader__pct mono" id="prePct">00</span>
 </div>
 
-<!-- persistent WebGL object (letter Y) -->
-<canvas class="gl" id="gl" aria-hidden="true"></canvas>
-<div class="gl-fallback" id="glFallback" aria-hidden="true">Y</div>
+<!-- bottom ruler: scroll evolution -->
+<div class="ruler" id="ruler" aria-hidden="true">
+  <span class="ruler__line"></span>
+  <span class="ruler__minor"></span>
+  <span class="ruler__major"></span>
+  <span class="ruler__cursor" id="rulerCursor"></span>
+  <span class="ruler__clock mono" id="clock">—</span>
+</div>
 
 <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
 
-<header class="header" id="header">
-  <a class="logo" href="#top">YSMN<sup>®</sup></a>
-  <div class="header__right">
-    <div class="lang" role="group" aria-label="Language / Язык">
-      <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
-      <span class="lang__sep" aria-hidden="true">/</span>
-      <button type="button" class="lang__btn" data-lang="ru" aria-pressed="false">RU</button>
-    </div>
-    <span class="hbox mono" id="dayPct" title="Day progress">—</span>
-    <span class="hbox mono" id="clock" title="Local time">—</span>
-    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
-  </div>
-</header>
-
+<!-- vertical section rail -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <button class="rail__lang mono" id="railLang" type="button" aria-label="Switch language">EN</button>
+  <a href="#hero" class="rail__item is-active" data-rail="hero"><i></i><span class="mono">Intro</span></a>
+  <a href="#work" class="rail__item" data-rail="work"><i></i><span class="mono">Work</span></a>
+  <a href="#services" class="rail__item" data-rail="services"><i></i><span class="mono">Services</span></a>
+  <a href="#about" class="rail__item" data-rail="about"><i></i><span class="mono">About</span></a>
+  <a href="#contact" class="rail__item" data-rail="contact"><i></i><span class="mono">Contact</span></a>
+</nav>
 <div class="mmenu" id="mmenu" aria-hidden="true">
   <nav class="mmenu__nav" aria-label="Mobile">
     <a class="mmenu__link" href="#work" data-i18n="nav.work">Work</a>
@@ -63,82 +61,126 @@
   </div>
 </div>
 
-<!-- vertical section rail -->
-<nav class="rail" id="rail" aria-label="Sections">
-  <a href="#hero" class="rail__item is-active" data-rail="hero"><i></i><span class="mono">Intro</span></a>
-  <a href="#work" class="rail__item" data-rail="work"><i></i><span class="mono">Work</span></a>
-  <a href="#services" class="rail__item" data-rail="services"><i></i><span class="mono">Services</span></a>
-  <a href="#about" class="rail__item" data-rail="about"><i></i><span class="mono">About</span></a>
-  <a href="#contact" class="rail__item" data-rail="contact"><i></i><span class="mono">Contact</span></a>
-</nav>
-
 <main id="top">
 
-  <!-- ================= HERO ================= -->
-  <section class="hero frame" id="hero" data-morph="hero">
-    <span class="plus plus--tl" aria-hidden="true"></span>
-    <span class="plus plus--tr" aria-hidden="true"></span>
-    <span class="plus plus--bl" aria-hidden="true"></span>
-    <span class="plus plus--br" aria-hidden="true"></span>
+  <!-- ================= HERO (pinned scene) ================= -->
+  <div class="hero-wrap" id="hero">
+    <section class="hero" id="heroSlide" aria-label="Intro">
 
-    <p class="hero__label hero__label--tl mono reveal-line" data-i18n="hero.l1">01. CGI Studio</p>
-    <p class="hero__label hero__label--tr mono reveal-line" data-i18n="hero.l2">02. Moscow Based</p>
-    <p class="hero__label hero__label--bl mono reveal-line" data-i18n-html="hero.l3">03. T: +7 925 000 00 00<br>M: hello@ysmn.studio</p>
-    <p class="hero__label hero__label--br mono reveal-line" data-i18n="hero.l4">04. Open for projects</p>
+      <header class="header">
+        <div class="header__brand">
+          <a class="logo" href="#top"><span class="logo__acc">YS</span>MN<sup>®</sup></a>
+          <button class="hbtn hbtn--m mono" id="burger" type="button" aria-label="Menu" aria-expanded="false">M</button>
+        </div>
+        <div class="header__right">
+          <div class="hlang">
+            <button class="hbtn hbtn--lang" id="langBox" type="button" aria-label="Language / Язык" aria-haspopup="true" aria-expanded="false">
+              <span class="hbtn__zh" aria-hidden="true">文</span><span class="hbtn__a" aria-hidden="true">A</span>
+            </button>
+            <div class="hlang__pop" role="group" aria-label="Language / Язык">
+              <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+              <button type="button" class="lang__btn" data-lang="ru" aria-pressed="false">RU</button>
+            </div>
+          </div>
+          <span class="hbtn hbtn--city mono">MSK</span>
+        </div>
+      </header>
 
-    <div class="hero__row">
-      <h1 class="hero__word hero__word--l reveal-line" data-i18n-html="hero.w1">Shaping<br>Worlds</h1>
-      <h1 class="hero__word hero__word--r reveal-line" data-i18n-html="hero.w2">Rendering<br>Emotions</h1>
+      <span class="plus plus--mid" aria-hidden="true"></span>
+
+      <p class="hero__label hero__label--tl mono reveal-line" data-i18n="hero.l1">01. CGI Studio</p>
+      <p class="hero__label hero__label--tr mono reveal-line" data-i18n="hero.l2">02. Moscow Based</p>
+      <p class="hero__label hero__label--bl mono reveal-line" data-i18n-html="hero.l3">03. T: +7 925 000 00 00<br>M: hello@ysmn.studio</p>
+      <p class="hero__label hero__label--br mono reveal-line" data-i18n="hero.l4">04. Open for projects</p>
+
+      <div class="hero__row">
+        <h1 class="hero__word hero__word--l reveal-line" data-i18n-html="hero.w1">Shaping<br><i>Worlds</i></h1>
+        <h1 class="hero__word hero__word--r reveal-line" data-i18n-html="hero.w2">Rendering<br><i>Emotions</i></h1>
+      </div>
+
+      <div class="win" id="heroWin" data-win aria-hidden="true">
+        <div class="win__gl" id="gl-hero"></div>
+        <i class="win__b win__b--tl"></i><i class="win__b win__b--tr"></i>
+        <i class="win__b win__b--bl"></i><i class="win__b win__b--br"></i>
+        <span class="win__edge"></span>
+        <span class="win__plus"></span>
+        <span class="win__lbl win__lbl--t mono" id="lblHT">clip-path: inset(0px 52px 52px 0px)</span>
+        <span class="win__lbl win__lbl--r mono" id="lblHR">clip-path: inset(0px 0px 0px 52px)</span>
+        <span class="win__lbl win__lbl--b mono" id="lblHB">clip-path: inset(52px 0px 0px 52px)</span>
+        <span class="win__lbl win__lbl--l mono" id="lblHL">clip-path: inset(52px 52px 0px 0px)</span>
+      </div>
+
+    </section>
+    <span id="pin30" aria-hidden="true" style="position:absolute;left:0;top:30%;width:1px;height:1px;"></span>
+    <span id="pin45" aria-hidden="true" style="position:absolute;left:0;top:45%;width:1px;height:1px;"></span>
+    <span id="pin55" aria-hidden="true" style="position:absolute;left:0;top:55%;width:1px;height:1px;"></span>
+  </div>
+  <!-- ================= WORK ================= -->
+  <section class="work" id="work" data-morph="work">
+
+    <!-- connector: hero window → projects -->
+    <div class="lead" id="lead" aria-hidden="true">
+      <span class="lead__node" id="leadNodeA"><b></b></span>
+      <span class="lead__dash" id="leadDash"><i class="lead__lbl mono" id="lblDash">clip-path: inset(100% 0% 0% 0%)</i></span>
+      <p class="lead__title" data-i18n="work.lead">Projects</p>
+      <span class="lead__node" id="leadNodeB"><b></b></span>
     </div>
 
-    <p class="hero__scroll mono" data-i18n="hero.scroll">Scroll to explore</p>
-  </section>
-  <!-- ================= WORK / CASE CAROUSEL ================= -->
-  <section class="work frame" id="work" data-morph="work">
-    <span class="plus plus--tl" aria-hidden="true"></span>
-    <span class="plus plus--br" aria-hidden="true"></span>
+    <div class="work__body frame">
+      <span class="plus plus--tl" aria-hidden="true"></span>
+      <span class="plus plus--br" aria-hidden="true"></span>
 
-    <div class="sec__head">
-      <div>
-        <h2 class="h2 reveal-line" data-i18n="work.title">Selected Work</h2>
-        <p class="sub reveal-line" data-i18n="work.sub">Selected full-CG productions, from concept to final frame.</p>
+      <div class="sec__head">
+        <div>
+          <h2 class="h2 reveal-line" data-i18n="work.title">Selected Work</h2>
+          <p class="sub reveal-line" data-i18n="work.sub">Selected full-CG productions, from concept to final frame.</p>
+        </div>
+        <a class="btn reveal-line" href="#contact" data-i18n="work.cta">Start a Project</a>
       </div>
-      <a class="btn reveal-line" href="#contact" data-i18n="work.cta">Start a Project</a>
-    </div>
 
-    <div class="case" id="case">
-      <div class="case__stage">
-        <button class="case__main" id="caseMain" type="button" aria-haspopup="dialog">
-          <img id="caseImg" src="" alt="">
-          <span class="case__zoom mono" id="caseZoom">View gallery</span>
-        </button>
-        <div class="case__thumbs" id="caseThumbs"></div>
+      <div class="case" id="case">
+        <div class="case__orbit win win--cell" id="workWin" data-win aria-hidden="true">
+          <div class="win__gl" id="gl-blue"></div>
+          <i class="win__b win__b--tl"></i><i class="win__b win__b--tr"></i>
+          <i class="win__b win__b--bl"></i><i class="win__b win__b--br"></i>
+          <span class="win__edge"></span>
+          <span class="win__lbl win__lbl--t mono" id="lblWT">clip-path: inset(0px 52px 52px 0px)</span>
+          <span class="win__lbl win__lbl--r mono" id="lblWR">clip-path: inset(0px 0px 0px 52px)</span>
+          <span class="win__lbl win__lbl--b mono" id="lblWB">clip-path: inset(52px 0px 0px 52px)</span>
+          <span class="win__lbl win__lbl--l mono" id="lblWL">clip-path: inset(52px 52px 0px 0px)</span>
+        </div>
+        <div class="case__stage">
+          <button class="case__main" id="caseMain" type="button" aria-haspopup="dialog">
+            <img id="caseImg" src="" alt="">
+            <span class="case__zoom mono" id="caseZoom">View gallery</span>
+          </button>
+          <div class="case__thumbs" id="caseThumbs"></div>
+        </div>
+        <figure class="case__phone"><img id="casePhone" src="" alt=""></figure>
+        <div class="case__desc">
+          <div class="case__tools" id="caseTools"></div>
+          <div class="case__txt">
+            <p class="case__tag mono" id="caseTag"></p>
+            <p class="case__text" id="caseText"></p>
+            <p class="case__meta mono" id="caseMeta"></p>
+          </div>
+        </div>
       </div>
-      <figure class="case__phone"><img id="casePhone" src="" alt=""></figure>
-      <div class="case__desc">
-        <p class="case__tag mono" id="caseTag"></p>
-        <p class="case__text" id="caseText"></p>
-        <p class="case__meta mono" id="caseMeta"></p>
-      </div>
-      <div class="case__orbit">
-        <canvas id="orbit" width="420" height="420" aria-hidden="true"></canvas>
-        <div class="case__tools" id="caseTools"></div>
-      </div>
-    </div>
 
-    <div class="case__bar">
-      <div class="case__ctrl">
-        <button class="iconbtn" id="casePrev" type="button" aria-label="Previous project">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg>
-        </button>
-        <button class="iconbtn" id="caseShare" type="button" aria-label="Copy link">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M15 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L13.5 19.5"/></svg>
+      <div class="case__bar">
+        <div class="case__ctrl">
+          <button class="iconbtn" id="casePrev" type="button" aria-label="Previous project">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg>
+          </button>
+          <button class="iconbtn" id="caseShare" type="button" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M15 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L13.5 19.5"/></svg>
+          </button>
+        </div>
+        <h3 class="case__name reveal-line" id="caseName">&nbsp;</h3>
+        <button class="iconbtn" id="caseNext" type="button" aria-label="Next project">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg>
         </button>
       </div>
-      <h3 class="case__name reveal-line" id="caseName">&nbsp;</h3>
-      <button class="iconbtn" id="caseNext" type="button" aria-label="Next project">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg>
-      </button>
     </div>
   </section>
   <!-- ================= SERVICES ================= -->
@@ -173,7 +215,11 @@
         </div>
       </div>
 
-      <div class="srv__glcell" aria-hidden="true"></div>
+      <div class="srv__glcell glwin" aria-hidden="true" data-win>
+        <div class="win__gl" id="gl-srv"></div>
+        <i class="win__b win__b--tl"></i><i class="win__b win__b--tr"></i>
+        <i class="win__b win__b--bl"></i><i class="win__b win__b--br"></i>
+      </div>
 
       <aside class="srv__side">
         <blockquote class="q" id="qA">
@@ -211,7 +257,11 @@
 
     <div class="about__grid">
       <p class="about__text reveal-line" data-i18n="about.text">YSMN is a CGI studio crafting photoreal worlds — full-CG shots, simulations, lookdev and lighting for ambitious brands.</p>
-      <div class="about__glcell" aria-hidden="true"></div>
+      <div class="about__glcell glwin" aria-hidden="true" data-win>
+        <div class="win__gl" id="gl-about"></div>
+        <i class="win__b win__b--tl"></i><i class="win__b win__b--tr"></i>
+        <i class="win__b win__b--bl"></i><i class="win__b win__b--br"></i>
+      </div>
       <figure class="about__photo">
         <img src="assets/unieco_p04.jpg" alt="CGI renders" loading="lazy" decoding="async">
         <figcaption class="mono" data-i18n="about.figcaption">Unieco — full-CG product renders</figcaption>
@@ -230,7 +280,6 @@
         <h2 class="h2 reveal-line" data-i18n="ct.title">Contact</h2>
         <div class="contact__card">
           <a href="mailto:hello@ysmn.studio" class="contact__line">hello@ysmn.studio</a>
-          <a href="tel:+79250000000" class="contact__line">+7 925 000 00 00</a>
           <a href="https://wa.me/79250000000" class="contact__line contact__line--wa" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 4 2.5 6.5 6.5 6.5l.9-1.8-2.2-1.1-1 .9c-1.2-.6-2-1.4-2.5-2.6l.9-1-1.1-2.1z"/></svg>
             <span data-i18n="ct.whatsapp">WhatsApp</span>
@@ -244,7 +293,11 @@
         </div>
       </div>
 
-      <div class="contact__glcell" aria-hidden="true"></div>
+      <div class="contact__glcell glwin" aria-hidden="true" data-win>
+        <div class="win__gl" id="gl-contact"></div>
+        <i class="win__b win__b--tl"></i><i class="win__b win__b--tr"></i>
+        <i class="win__b win__b--bl"></i><i class="win__b win__b--br"></i>
+      </div>
 
       <form class="contact__form" id="form" novalidate>
         <h2 class="h2 reveal-line" data-i18n="ct.connect">Connect</h2>
@@ -298,7 +351,7 @@
 <script src="js/portfolio.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
-<script type="module" src="js/particles.js"></script>
+<script src="js/particles.js"></script>
 
 </body>
 </html>

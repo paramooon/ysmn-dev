@@ -16,6 +16,7 @@ en:{
   'hero.scroll':'Scroll to explore',
 
   'work.title':'Selected Work',
+  'work.lead':'Projects',
   'work.sub':'Selected full-CG productions, from concept to final frame.',
   'work.cta':'Start a Project',
   'work.zoom':'View gallery',
@@ -77,6 +78,7 @@ ru:{
   'hero.scroll':'Листайте, чтобы посмотреть',
 
   'work.title':'Избранные работы',
+  'work.lead':'Проекты',
   'work.sub':'Полностью CG-продакшены — от концепта до финального кадра.',
   'work.cta':'Обсудить проект',
   'work.zoom':'Смотреть галерею',
