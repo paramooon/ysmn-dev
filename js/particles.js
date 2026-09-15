@@ -291,11 +291,60 @@ function initContactWin(){
   return {poke:function(){}};
 }
 
+/* =========================================================
+   D2. services window — dotted icosahedron shell
+   ========================================================= */
+function initServicesWin(){
+  var holder=document.getElementById('gl-srv');
+  if(!holder)return null;
+  var W=holder.clientWidth||360,H=holder.clientHeight||360;
+  var renderer=makeRenderer(holder,W,H);
+  if(!renderer)return null;
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(34,W/H,0.1,40);
+  camera.position.set(0,0,3);
+
+  var g=new THREE.IcosahedronGeometry(0.55,2);
+  var cnt=g.attributes.position.count;
+  var N=Math.min(cnt,4200),pos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){
+    var idx=(Math.random()*cnt)|0;
+    pos[i*3]  =g.attributes.position.getX(idx)+(Math.random()-0.5)*0.02;
+    pos[i*3+1]=g.attributes.position.getY(idx)+(Math.random()-0.5)*0.02;
+    pos[i*3+2]=g.attributes.position.getZ(idx)+(Math.random()-0.5)*0.02;
+  }
+  var pg=new THREE.BufferGeometry();
+  pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var pm=new THREE.PointsMaterial({color:0x2a2a2e,size:0.016,transparent:true,opacity:0.85});
+  var cloud=new THREE.Points(pg,pm);scene.add(cloud);
+
+  var b=makeBreath(0.05);
+  var tmx=0,tmy=0;
+  window.addEventListener('pointermove',function(e){
+    tmx=(e.clientX/window.innerWidth)*2-1;
+    tmy=(e.clientY/window.innerHeight)*2-1;
+  },{passive:true});
+  function resize(){W=holder.clientWidth;H=holder.clientHeight;
+    if(!W||!H)return;
+    renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();}
+  window.addEventListener('resize',resize);
+  var clock=new THREE.Clock();
+  (function tick(){
+    var t=clock.getElapsedTime();
+    cloud.rotation.y=t*0.3+tmx*0.25;
+    cloud.rotation.x=sin(t*0.4)*0.15+tmy*0.15;
+    cloud.scale.setScalar(breathAt(b,t));
+    renderer.render(scene,camera);
+    requestAnimationFrame(tick);
+  })();
+  return {poke:function(){}};
+}
+
 /* ---------- boot ---------- */
 function boot(){
   if(!window.THREE)return;
   var hero=initHero();
-  initBlueModel();initAboutFace();initContactWin();
+  initBlueModel();initServicesWin();initAboutFace();initContactWin();
   window.__YSMN_GL__={hero:hero};
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
